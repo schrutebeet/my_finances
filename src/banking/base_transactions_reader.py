@@ -4,34 +4,13 @@ from abc import ABC, abstractmethod
 
 import pandas as pd
 
+from src.common.base_reader import BaseReader
 
-class BaseTransactionReader(ABC):
+
+class BaseTransactionReader(BaseReader):
 
     def __init__(self, input_path: Union[str, Path]) -> None:
-        pass
-
-    @staticmethod
-    def _load_transaction_file(input_path: Union[str, Path]) -> pd.DataFrame:
-        input_path = BaseTransactionReader.__convert_to_pathlib_path(input_path)
-        if input_path.suffix == ".csv":
-            input_df = pd.read_csv(input_path)
-        else:
-            raise ValueError("Please, provide a .csv file.")
-        return trx_df
-    
-    @staticmethod
-    def _convert_to_pathlib_path(input_path: str) -> Path:
-        """Convert any string to a Path object.
-
-        Args:
-            input_path (str): string path to the file to be loaded.
-
-        Returns:
-            Path: A Path object with the path of the file to be loaded.
-        """
-        if not isinstance(input_path, Path):
-            input_path = Path(input_path)
-        return input_path
+        super().__init__(input_path)
 
     @abstractmethod
     def _clean_up_transaction_df(trx_df: pd.DataFrame) -> pd.DataFrame:
@@ -43,5 +22,11 @@ class BaseTransactionReader(ABC):
 
         Returns:
             pd.DataFrame: Output df with clean data.
+        """
+        pass
+
+    @abstractmethod
+    def get_clean_trx_df():
+        """Get the clean transaction df for a specific money holder.
         """
         pass
