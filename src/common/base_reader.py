@@ -11,13 +11,15 @@ class BaseReader(ABC):
         pass
 
     @staticmethod
-    def _load_transaction_file(input_path: Union[str, Path]) -> pd.DataFrame:
-        input_path = BaseTransactionReader.__convert_to_pathlib_path(input_path)
+    def _load_file(input_path: Union[str, Path]) -> pd.DataFrame:
+        input_path = BaseReader._convert_to_pathlib_path(input_path)
         if input_path.suffix == ".csv":
             input_df = pd.read_csv(input_path)
+        elif input_path.suffix == ".xlsx" or input_path.suffix == ".xls":
+            input_df = pd.read_excel(input_path)
         else:
             raise ValueError("Please, provide a .csv file.")
-        return trx_df
+        return input_df
     
     @staticmethod
     def _convert_to_pathlib_path(input_path: str) -> Path:

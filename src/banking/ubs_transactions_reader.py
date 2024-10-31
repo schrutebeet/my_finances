@@ -16,7 +16,7 @@ class UBSTrasactionReader(BaseTransactionReader):
         self.categories = self.read_categories_file(cat_path)
     
     def get_clean_trx_df(self):
-        trx_df = self._load_transaction_file(self.input_path)
+        trx_df = self._load_file(self.input_path)
         trx_df = self._clean_up_transaction_df(trx_df)
         return trx_df
     
@@ -39,7 +39,7 @@ class UBSTrasactionReader(BaseTransactionReader):
         return trx_df
 
     @staticmethod
-    def _load_transaction_file(input_path: Union[str, Path], min_num_cols = 6):
+    def _load_file(input_path: Union[str, Path], min_num_cols = 6):
         input_path = BaseTransactionReader._convert_to_pathlib_path(input_path)
         with open(input_path, 'r') as file:
             lines = file.readlines()
